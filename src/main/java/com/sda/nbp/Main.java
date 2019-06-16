@@ -72,13 +72,13 @@ public class Main {
 
         System.out.println("\nProfit from exchange " + currencyPLN + " PLN:");
         System.out.println("Profit from buying USD a " + numberOfMonths + " month ago is: " +
-                (Math.round(currencyPLN * 100 / oldPurchaseUSD * currencyUSD - currencyPLN * 100) / 100.0) + " PLN");
+                (Math.round(currencyPLN * 100 / oldPurchaseUSD * currencySaleUSD - currencyPLN * 100) / 100.0) + " PLN");
         System.out.println("Profit from buying EUR a " + numberOfMonths + " month ago is: " +
-                (Math.round(currencyPLN * 100 / oldPurchaseEUR * currencyEUR - currencyPLN * 100) / 100.0) + " PLN");
+                (Math.round(currencyPLN * 100 / oldPurchaseEUR * currencySaleEUR - currencyPLN * 100) / 100.0) + " PLN");
         System.out.println("Profit from buying GBP a " + numberOfMonths + " month ago is: " +
-                (Math.round(currencyPLN * 100 / oldPurchaseGBP * currencyGBP - currencyPLN * 100) / 100.0) + " PLN");
+                (Math.round(currencyPLN * 100 / oldPurchaseGBP * currencySaleGBP - currencyPLN * 100) / 100.0) + " PLN");
         System.out.println("Profit from buying CHF a " + numberOfMonths + " month ago is: " +
-                (Math.round(currencyPLN * 100 / oldPurchaseCHF * currencyCHF - currencyPLN * 100) / 100.0) + " PLN");
+                (Math.round(currencyPLN * 100 / oldPurchaseCHF * currencySaleCHF - currencyPLN * 100) / 100.0) + " PLN");
     }
 
     private static Currency[] getCurrencies(final String patch) throws IOException {
