@@ -70,7 +70,7 @@ public class Main {
         System.out.println("Currency of CHF is: " + currencyCHF + ", " + currencyPLN + " PLN is worth "
                 + Math.round(currencyPLN * 100/currencySaleCHF)/100.0 + " CHF");
 
-
+        System.out.println("\nProfit from exchange " + currencyPLN + " PLN:");
         System.out.println("Profit from buying USD a " + numberOfMonths + " month ago is: " +
                 (Math.round(currencyPLN * 100 / oldPurchaseUSD * currencyUSD - currencyPLN * 100) / 100.0) + " PLN");
         System.out.println("Profit from buying EUR a " + numberOfMonths + " month ago is: " +
@@ -79,7 +79,6 @@ public class Main {
                 (Math.round(currencyPLN * 100 / oldPurchaseGBP * currencyGBP - currencyPLN * 100) / 100.0) + " PLN");
         System.out.println("Profit from buying CHF a " + numberOfMonths + " month ago is: " +
                 (Math.round(currencyPLN * 100 / oldPurchaseCHF * currencyCHF - currencyPLN * 100) / 100.0) + " PLN");
-
     }
 
     private static Currency[] getCurrencies(final String patch) throws IOException {
