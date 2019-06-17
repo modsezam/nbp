@@ -13,6 +13,9 @@ import java.util.Scanner;
 
 public class Main {
 
+    private static final double CURRENCY_PLN = 100;
+    private static final int NUMBER_OF_MONTHS = 10;
+
     public static void main(String[] args) {
 
         double currencyUSD = 0;
@@ -28,15 +31,11 @@ public class Main {
         double previousPurchaseGBP = 0;
         double previousPurchaseCHF = 0;
 
-        double currencyPLN = 100;
-        int numberOfMonths = 1;
-        String patch = "";
-
         LocalDate dateCurrent = LocalDate.now();
-        LocalDate dateOfPreviousExchange = LocalDate.now().minusMonths(numberOfMonths);
+        LocalDate dateOfPreviousExchange = LocalDate.now().minusMonths(NUMBER_OF_MONTHS);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        patch = "http://api.nbp.pl/api/exchangerates/tables/a/?format=json";
+        String patch = "http://api.nbp.pl/api/exchangerates/tables/a/?format=json";
         Currency[] currency;
         try {
             currency = getCurrencies(patch);
@@ -58,17 +57,16 @@ public class Main {
         if (!dateReadFromJson.equals(dateCurrent)){
             System.out.println("The date read is different from the current one!");
         }
-        System.out.println("The current average USD exchange rate is: " + currencyUSD + ", " + currencyPLN + " PLN is worth "
-                + Math.round(currencyPLN * 100 / currencyUSD) / 100.0 + " USD");
-        System.out.println("The current average EUR exchange rate is: " + currencyEUR + ", " + currencyPLN + " PLN is worth "
-                + Math.round(currencyPLN * 100 / currencyEUR) / 100.0 + " EUR");
-        System.out.println("The current average GBP exchange rate is: " + currencyGBP + ", " + currencyPLN + " PLN is worth "
-                + Math.round(currencyPLN * 100 / currencyGBP) / 100.0 + " GBP");
-        System.out.println("The current average CHF exchange rate is: " + currencyCHF + ", " + currencyPLN + " PLN is worth "
-                + Math.round(currencyPLN * 100 / currencyCHF) / 100.0 + " CHF");
+        System.out.println("The current average USD exchange rate is: " + currencyUSD + ", " + CURRENCY_PLN + " PLN is worth "
+                + Math.round(CURRENCY_PLN * 100 / currencyUSD) / 100.0 + " USD");
+        System.out.println("The current average EUR exchange rate is: " + currencyEUR + ", " + CURRENCY_PLN + " PLN is worth "
+                + Math.round(CURRENCY_PLN * 100 / currencyEUR) / 100.0 + " EUR");
+        System.out.println("The current average GBP exchange rate is: " + currencyGBP + ", " + CURRENCY_PLN + " PLN is worth "
+                + Math.round(CURRENCY_PLN * 100 / currencyGBP) / 100.0 + " GBP");
+        System.out.println("The current average CHF exchange rate is: " + currencyCHF + ", " + CURRENCY_PLN + " PLN is worth "
+                + Math.round(CURRENCY_PLN * 100 / currencyCHF) / 100.0 + " CHF");
 
 
-        System.out.println("\nProfit from exchange " + currencyPLN + " PLN:");
         patch = "http://api.nbp.pl/api/exchangerates/tables/c/?format=json";
         Currency[] currentSalesValues;
         try {
@@ -85,11 +83,13 @@ public class Main {
             if (rate.getCode().equals("CHF")) currencySaleCHF = rate.getAsk();
         }
 
+        System.out.println("\nProfit from exchange " + CURRENCY_PLN + " PLN:");
         patch = "http://api.nbp.pl/api/exchangerates/tables/c/"+ dateOfPreviousExchange.format(formatter) +"/?format=json";
         Currency[] previousPurchaseValues = new Currency[0];
         for (int i = 0; i < 10; i++) {
             try {
                 previousPurchaseValues = getCurrencies(patch);
+                System.out.println("Exchange in " + dateOfPreviousExchange.minusDays(i) + ":");
                 break;
             } catch (IOException e) {
                 System.out.println("There is no data in day: " + dateOfPreviousExchange.minusDays(i).format(formatter));
@@ -103,14 +103,14 @@ public class Main {
             if (rate.getCode().equals("GBP")) previousPurchaseGBP = rate.getBid();
             if (rate.getCode().equals("CHF")) previousPurchaseCHF = rate.getBid();
         }
-        System.out.println("Profit from buying USD a " + numberOfMonths + " month ago is: " +
-                (Math.round(currencyPLN * 100 / previousPurchaseUSD * currencySaleUSD - currencyPLN * 100) / 100.0) + " PLN");
-        System.out.println("Profit from buying EUR a " + numberOfMonths + " month ago is: " +
-                (Math.round(currencyPLN * 100 / previousPurchaseEUR * currencySaleEUR - currencyPLN * 100) / 100.0) + " PLN");
-        System.out.println("Profit from buying GBP a " + numberOfMonths + " month ago is: " +
-                (Math.round(currencyPLN * 100 / previousPurchaseGBP * currencySaleGBP - currencyPLN * 100) / 100.0) + " PLN");
-        System.out.println("Profit from buying CHF a " + numberOfMonths + " month ago is: " +
-                (Math.round(currencyPLN * 100 / previousPurchaseCHF * currencySaleCHF - currencyPLN * 100) / 100.0) + " PLN");
+        System.out.println("Profit from buying USD a " + NUMBER_OF_MONTHS + " month ago is: " +
+                (Math.round(CURRENCY_PLN * 100 / previousPurchaseUSD * currencySaleUSD - CURRENCY_PLN * 100) / 100.0) + " PLN");
+        System.out.println("Profit from buying EUR a " + NUMBER_OF_MONTHS + " month ago is: " +
+                (Math.round(CURRENCY_PLN * 100 / previousPurchaseEUR * currencySaleEUR - CURRENCY_PLN * 100) / 100.0) + " PLN");
+        System.out.println("Profit from buying GBP a " + NUMBER_OF_MONTHS + " month ago is: " +
+                (Math.round(CURRENCY_PLN * 100 / previousPurchaseGBP * currencySaleGBP - CURRENCY_PLN * 100) / 100.0) + " PLN");
+        System.out.println("Profit from buying CHF a " + NUMBER_OF_MONTHS + " month ago is: " +
+                (Math.round(CURRENCY_PLN * 100 / previousPurchaseCHF * currencySaleCHF - CURRENCY_PLN * 100) / 100.0) + " PLN");
     }
 
 
