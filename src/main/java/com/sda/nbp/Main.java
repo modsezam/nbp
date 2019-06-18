@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class Main {
 
     private static final double CURRENCY_PLN = 100;
-    private static final int NUMBER_OF_MONTHS = 10;
+    private static final int NUMBER_OF_MONTHS = 1;
 
     public static void main(String[] args) {
 
@@ -95,6 +95,10 @@ public class Main {
                 System.out.println("There is no data in day: " + dateOfPreviousExchange.minusDays(i).format(formatter));
                 System.out.println("System choose day before: " + dateOfPreviousExchange.minusDays(i + 1).format(formatter));
                 patch = "http://api.nbp.pl/api/exchangerates/tables/c/"+ dateOfPreviousExchange.minusDays(i + 1).format(formatter) +"/?format=json";
+            }
+            if (i == 9) {
+                System.out.println("No data in the given data range!");
+                return;
             }
         }
         for (Rates rate : previousPurchaseValues[0].getRates()) {
