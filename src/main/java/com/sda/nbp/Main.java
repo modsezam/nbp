@@ -77,10 +77,10 @@ public class Main {
             return;
         }
         for (Rates rate : currentSalesValues[0].getRates()) {
-            if (rate.getCode().equals("USD")) currencySaleUSD = rate.getAsk();
-            if (rate.getCode().equals("EUR")) currencySaleEUR = rate.getAsk();
-            if (rate.getCode().equals("GBP")) currencySaleGBP = rate.getAsk();
-            if (rate.getCode().equals("CHF")) currencySaleCHF = rate.getAsk();
+            if (rate.getCode().equals("USD")) currencySaleUSD = rate.getBid();
+            if (rate.getCode().equals("EUR")) currencySaleEUR = rate.getBid();
+            if (rate.getCode().equals("GBP")) currencySaleGBP = rate.getBid();
+            if (rate.getCode().equals("CHF")) currencySaleCHF = rate.getBid();
         }
 
         System.out.println("\nProfit from exchange " + CURRENCY_PLN + " PLN:");
@@ -89,7 +89,7 @@ public class Main {
         for (int i = 0; i < 10; i++) {
             try {
                 previousPurchaseValues = getCurrencies(patch);
-                System.out.println("Exchange in " + dateOfPreviousExchange.minusDays(i) + ":");
+                System.out.println("Exchange in: " + dateOfPreviousExchange.minusDays(i) + ":");
                 break;
             } catch (IOException e) {
                 System.out.println("There is no data in day: " + dateOfPreviousExchange.minusDays(i).format(formatter));
@@ -102,10 +102,10 @@ public class Main {
             }
         }
         for (Rates rate : previousPurchaseValues[0].getRates()) {
-            if (rate.getCode().equals("USD")) previousPurchaseUSD = rate.getBid();
-            if (rate.getCode().equals("EUR")) previousPurchaseEUR = rate.getBid();
-            if (rate.getCode().equals("GBP")) previousPurchaseGBP = rate.getBid();
-            if (rate.getCode().equals("CHF")) previousPurchaseCHF = rate.getBid();
+            if (rate.getCode().equals("USD")) previousPurchaseUSD = rate.getAsk();
+            if (rate.getCode().equals("EUR")) previousPurchaseEUR = rate.getAsk();
+            if (rate.getCode().equals("GBP")) previousPurchaseGBP = rate.getAsk();
+            if (rate.getCode().equals("CHF")) previousPurchaseCHF = rate.getAsk();
         }
         System.out.println("Profit from buying USD a " + NUMBER_OF_MONTHS + " month ago is: " +
                 (Math.round(CURRENCY_PLN * 100 / previousPurchaseUSD * currencySaleUSD - CURRENCY_PLN * 100) / 100.0) + " PLN");
