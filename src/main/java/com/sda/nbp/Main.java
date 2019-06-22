@@ -25,7 +25,10 @@ public class Main {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         String patch = "http://api.nbp.pl/api/exchangerates/tables/a/?format=json";
+
+
         Currency[] currency;
+
         try {
             currency = getCurrencies(patch);
         } catch (IOException e) {
@@ -33,6 +36,9 @@ public class Main {
             System.out.println("Check your connection!");
             return;
         }
+
+
+
         String effectiveDate = currency[0].getEffectiveDate();
         LocalDate dateReadFromJson = LocalDate.parse(effectiveDate);
 
@@ -40,7 +46,11 @@ public class Main {
         currency[0].getRates()
                 .forEach(rates -> currencyMap.put(rates.getCode(), rates.getMid()));
 
+
+
+
         System.out.println("Data from: " + dateReadFromJson);
+
         if (!dateReadFromJson.equals(dateCurrent)) {
             System.out.println("The date read is different from the current one!");
         }
@@ -53,7 +63,9 @@ public class Main {
         System.out.println("The current average CHF exchange rate is: " + currencyMap.get("CHF") + ", " + CURRENCY_PLN + " PLN is worth "
                 + Math.round(CURRENCY_PLN * 100 / currencyMap.get("CHF")) / 100.0 + " CHF");
 
+
         patch = "http://api.nbp.pl/api/exchangerates/tables/c/?format=json";
+
         Currency[] currentSalesValues;
         try {
             currentSalesValues = getCurrencies(patch);
@@ -99,6 +111,27 @@ public class Main {
         System.out.println("Profit from buying CHF a " + NUMBER_OF_MONTHS + " month ago is: " +
                 (Math.round(CURRENCY_PLN * 100 / previousPurchaseMap.get("CHF") * currentSalesMap.get("CHF") - CURRENCY_PLN * 100) / 100.0) + " PLN");
     }
+
+
+
+    private static Map<String, Double> getMapFromPath (String patch){
+
+        Currency[] currency;
+        try {
+            currency = getCurrencies(patch);
+        } catch (IOException e) {
+            System.out.println("No connection witch the api NBP: " + e);
+            System.out.println("Check your connection!");
+            return null;
+        }
+
+        Map<String, Double> currentMap = new HashMap<>();
+        currency[0].getRates()
+                .forEach(rates -> currentMap.put(rates.getCode(), rates.getBid()));
+
+        return currentMap;
+    }
+
 
     private static Currency[] getCurrencies(final String patch) throws IOException {
         URL url = new URL(patch);
