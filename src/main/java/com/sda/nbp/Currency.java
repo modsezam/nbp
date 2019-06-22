@@ -9,6 +9,7 @@ public class Currency {
 
     public List<Rates> getRates() {
         return rates;
+
     }
 
     public String getEffectiveDate() {
